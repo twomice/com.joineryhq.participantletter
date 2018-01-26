@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<menu>
+  <item>
+    <path>civicrm/participantletter/event/config</path>
+    <page_callback>CRM_Participantletter_Form_Event_Config</page_callback>
+    <title>Participant Letter</title>
+    <access_arguments>access CiviCRM</access_arguments>
+  </item>
+</menu>
