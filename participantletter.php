@@ -5,15 +5,59 @@ use CRM_Participantletter_ExtensionUtil as E;
 
 function participantletter_civicrm_tabset($tabsetName, &$tabs, $context) {
   if ($tabsetName == 'civicrm/event/manage') {
-    $tabs['newtab'] = array(
-      'title' => ts('Participant Letter'),
-      'link' => CRM_Utils_System::url('civicrm/participantletter/event/config'),
-      'class' => 'ajaxForm', //<---- The important part
-      'valid' => TRUE,
-      'active' => TRUE,
-      'current' => FALSE,
-      //etc
-    );
+    $eventId = CRM_Utils_Array::value('event_id', $context);
+    if (!empty($eventId)) {
+      $eventSettings = CRM_Participantletter_Settings::getEventSettings($eventId);
+      $tabs['participantletter'] = array(
+        'title' => ts('Participant Letter'),
+        'link' => NULL, // 'link' is automatically provided if we're under the 'civicrm/event/manage' path.
+        'class' => 'ajaxForm', // allows form to re-load itself on save.
+        'valid' => (bool)CRM_Utils_Array::value('is_participantletter', $eventSettings),
+        'active' => TRUE,
+        'current' => TRUE,  // setting this to FALSE prevents the tab from getting
+                            // focus when called directly, e.g., from under the
+                            // "Configure" link on the Manage Events listing page.
+      );
+    }
+    else {
+      $tabs['participantletter'] = array(
+        'title' => E::ts('Participant Letter'),
+        'url' => 'civicrm/event/manage/participantletter',
+        'field' => 'is_participantletter',
+      );
+    }
+  }
+
+  // on manage events listing screen, this section sets particpantletter tab in configuration popup as enabled/disabled.
+  if ($tabsetName == 'civicrm/event/manage/rows' && CRM_Utils_Array::value('event_id', $context)) {
+    if ($eventId = CRM_Utils_Array::value('event_id', $context)) {
+      $eventSettings = CRM_Participantletter_Settings::getEventSettings($eventId);
+      $tabs[$eventId]['is_participantletter'] = CRM_Utils_Array::value('is_participantletter', $eventSettings);
+    }
+  }
+}
+
+function participantletter_civicrm_post($op, $objectName, $objectId, &$objectRef) {
+  if ($objectName == 'Participant' && $op == 'create') {
+    $eventSettings = CRM_Participantletter_Settings::getEventSettings($objectRef->event_id);
+    if (
+      CRM_Utils_Array::value('is_participantletter', $eventSettings)
+      && ($template_id = CRM_Utils_Array::value('template_id', $eventSettings))
+      && CRM_Participantletter_Utils::canSendEmail()
+      && !($objectRef->is_test)
+    ) {
+      $params = array(
+        'template_id' => $template_id,
+        'contact_id' => $objectRef->contact_id,
+      );
+      try {
+        civicrm_api3('email', 'send', $params);
+        CRM_Core_Error::debug_log_message("Participantletter: Successfully sent email to participant_id: {$objectRef->id}, contact_id: {$objectRef->contact_id}, template_id: {$template_id}");
+      }
+      catch(CiviCRM_API3_Exception $e) {
+        CRM_Core_Error::debug_log_message("Participantletter: Could not send email to participant_id: {$objectRef->id}, contact_id: {$objectRef->contact_id}, template_id: {$template_id}; Email.send API error: ". $e->getMessage());
+      }
+    }
   }
 }
 

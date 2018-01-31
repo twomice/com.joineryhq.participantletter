@@ -1,7 +1,7 @@
 <div class="help">
-  If this event is configured for Online Registration, you can select a Message 
-  Template below to have a separate email delivered to the participant upon
-  their registration. {$manageMessageTemplatesHelpLink}
+  Select a Message Template below to have a separate email delivered to 
+  each new participant automatically when they're registered for this event. 
+  {$manageMessageTemplatesHelpLink}
 </div>
 {foreach from=$elementNames item=elementName}
   <div class="crm-section">
