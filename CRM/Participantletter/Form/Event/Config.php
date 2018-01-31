@@ -75,6 +75,16 @@ class CRM_Participantletter_Form_Event_Config extends CRM_Event_Form_ManageEvent
 
     // Add JS to handle show/hide stuff.
     CRM_Core_Resources::singleton()->addScriptFile('com.joineryhq.participantletter', 'js/Participantletter_Form_Event_Config.js');
+
+    // Present a warning if email.send api is not avaialable.
+    if (!CRM_Participantletter_Utils::canSendEmail()) {
+      CRM_Core_Session::setStatus(
+        E::ts('The "Participant Letter" option requires the <em>E-mail API</em> extension, which is not enabled. To allow Participant Letter emails to be sent, please enable the extension.'),
+        E::ts("Extension missing"),
+        "error"
+      );
+    }
+
     parent::buildQuickForm();
   }
 
