@@ -10,13 +10,16 @@ function participantletter_civicrm_tabset($tabsetName, &$tabs, $context) {
       $eventSettings = CRM_Participantletter_Settings::getEventSettings($eventId);
       $tabs['participantletter'] = array(
         'title' => ts('Participant Letter'),
-        'link' => NULL, // 'link' is automatically provided if we're under the 'civicrm/event/manage' path.
-        'class' => 'ajaxForm', // allows form to re-load itself on save.
-        'valid' => (bool)CRM_Utils_Array::value('is_participantletter', $eventSettings),
+        // 'link' is automatically provided if we're under the 'civicrm/event/manage' path.
+        'link' => NULL,
+        // allows form to re-load itself on save.
+        'class' => 'ajaxForm',
+        'valid' => (bool) CRM_Utils_Array::value('is_participantletter', $eventSettings),
         'active' => TRUE,
-        'current' => TRUE,  // setting this to FALSE prevents the tab from getting
-                            // focus when called directly, e.g., from under the
-                            // "Configure" link on the Manage Events listing page.
+        // setting this to FALSE prevents the tab from getting
+        // focus when called directly, e.g., from under the
+        // "Configure" link on the Manage Events listing page.
+        'current' => TRUE,
       );
     }
     else {
@@ -54,8 +57,8 @@ function participantletter_civicrm_post($op, $objectName, $objectId, &$objectRef
         civicrm_api3('email', 'send', $params);
         CRM_Core_Error::debug_log_message("Participantletter: Successfully sent email to participant_id: {$objectRef->id}, contact_id: {$objectRef->contact_id}, template_id: {$template_id}");
       }
-      catch(CiviCRM_API3_Exception $e) {
-        CRM_Core_Error::debug_log_message("Participantletter: Could not send email to participant_id: {$objectRef->id}, contact_id: {$objectRef->contact_id}, template_id: {$template_id}; Email.send API error: ". $e->getMessage());
+      catch (CiviCRM_API3_Exception $e) {
+        CRM_Core_Error::debug_log_message("Participantletter: Could not send email to participant_id: {$objectRef->id}, contact_id: {$objectRef->contact_id}, template_id: {$template_id}; Email.send API error: " . $e->getMessage());
       }
     }
   }
@@ -187,24 +190,24 @@ function participantletter_civicrm_alterSettingsFolders(&$metaDataFolders = NULL
  * Implements hook_civicrm_preProcess().
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_preProcess
- *
-function participantletter_civicrm_preProcess($formName, &$form) {
+ */
+// function participantletter_civicrm_preProcess($formName, &$form) {
 
-} // */
+// } // */
 
 /**
  * Implements hook_civicrm_navigationMenu().
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_navigationMenu
- *
-function participantletter_civicrm_navigationMenu(&$menu) {
-  _participantletter_civix_insert_navigation_menu($menu, NULL, array(
-    'label' => E::ts('The Page'),
-    'name' => 'the_page',
-    'url' => 'civicrm/the-page',
-    'permission' => 'access CiviReport,access CiviContribute',
-    'operator' => 'OR',
-    'separator' => 0,
-  ));
-  _participantletter_civix_navigationMenu($menu);
-} // */
+ */
+// function participantletter_civicrm_navigationMenu(&$menu) {
+//   _participantletter_civix_insert_navigation_menu($menu, NULL, array(
+//     'label' => E::ts('The Page'),
+//     'name' => 'the_page',
+//     'url' => 'civicrm/the-page',
+//     'permission' => 'access CiviReport,access CiviContribute',
+//     'operator' => 'OR',
+//     'separator' => 0,
+//   ));
+//   _participantletter_civix_navigationMenu($menu);
+// } // */

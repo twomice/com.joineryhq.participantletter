@@ -8,7 +8,7 @@
       else {
         $el.hide();
       }
-    }
+    };
 
     $('input#is_participantletter').change(participantletterIsActiveChange).change();
   });

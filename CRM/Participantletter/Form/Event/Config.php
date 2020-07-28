@@ -8,7 +8,7 @@ use CRM_Participantletter_ExtensionUtil as E;
  * @see https://wiki.civicrm.org/confluence/display/CRMDOC/QuickForm+Reference
  */
 class CRM_Participantletter_Form_Event_Config extends CRM_Event_Form_ManageEvent {
-//class CRM_Participantletter_Form_Event_Config extends CRM_Core_Form {
+  // class CRM_Participantletter_Form_Event_Config extends CRM_Core_Form {
 
   /**
    * The ID of the entity (in this case, the event) which we're configuring.
@@ -30,24 +30,26 @@ class CRM_Participantletter_Form_Event_Config extends CRM_Event_Form_ManageEvent
     return $this->entityId;
   }
 
-
   public function buildQuickForm() {
     // add form elements
+    // field type and name
     $this->add(
-      'hidden', // field type
-      'event_id' // field name
+      'hidden',
+      'event_id'
     );
+    // field type, name, and label
     $this->add(
-      'checkbox', // field type
-      'is_participantletter', // field name
-      E::ts('Email letter upon registration?') // field label
+      'checkbox',
+      'is_participantletter',
+      E::ts('Email letter upon registration?')
     );
+    // field type, name, label, list of options and is required
     $this->add(
-      'select', // field type
-      'template_id', // field name
-      E::ts('Message Template'), // field label
-       $this->getTemplateOptions(), // list of options
-      FALSE // is required
+      'select',
+      'template_id',
+      E::ts('Message Template'),
+       $this->getTemplateOptions(),
+      FALSE
     );
     $this->addButtons(array(
       array(
@@ -58,7 +60,7 @@ class CRM_Participantletter_Form_Event_Config extends CRM_Event_Form_ManageEvent
     ));
 
     if (CRM_Core_Permission::check('edit message templates')) {
-      $link = '<a href="'. CRM_Utils_System::url('civicrm/admin/messageTemplates', 'reset=1') .'">'. E::ts('manage Message Templates') .'</a>';
+      $link = '<a href="' . CRM_Utils_System::url('civicrm/admin/messageTemplates', 'reset=1') . '">' . E::ts('manage Message Templates') . '</a>';
       $manageMessageTemplatesHelpLink = E::ts('(You can also %1).', array('1' => $link));
       $this->assign('manageMessageTemplatesHelpLink', $manageMessageTemplatesHelpLink);
     }
@@ -91,7 +93,7 @@ class CRM_Participantletter_Form_Event_Config extends CRM_Event_Form_ManageEvent
   public function postProcess() {
     $eventSettings = array(
       'template_id' => CRM_Utils_Array::value('template_id', $this->_submitValues),
-      'is_participantletter' =>  CRM_Utils_Array::value('is_participantletter', $this->_submitValues),
+      'is_participantletter' => CRM_Utils_Array::value('is_participantletter', $this->_submitValues),
     );
     if (CRM_Participantletter_Settings::saveAllEventSettings($this->getEntityId(), $eventSettings)) {
       CRM_Core_Session::setStatus(" ", E::ts('Settings saved.'), "success");

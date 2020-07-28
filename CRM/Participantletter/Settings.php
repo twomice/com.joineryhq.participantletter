@@ -17,7 +17,7 @@ class CRM_Participantletter_Settings {
     $settingJson = CRM_Utils_Array::value('value', $resultValue, '{}');
     return json_decode($settingJson, TRUE);
   }
-  
+
   public static function saveAllEventSettings($eventId, $settings) {
     $settingName = "event_settings_{$eventId}";
     $result = civicrm_api3('OptionValue', 'get', array(
@@ -25,9 +25,9 @@ class CRM_Participantletter_Settings {
       'option_group_id' => "participantletter",
       'name' => $settingName,
     ));
-    
+
     $createParams = array();
-    
+
     if ($optionValueId = CRM_Utils_Array::value('id', $result)) {
       $createParams['id'] = $optionValueId;
     }
@@ -35,7 +35,7 @@ class CRM_Participantletter_Settings {
       $createParams['name'] = $settingName;
       $createParams['option_group_id'] = "participantletter";
     }
-    
+
     // Add event_id to settings. Without this, optionValue.create api was failing
     // to save new settings with a message like "value already exists in the database"
     // if the values for this event are the same as for some other event. So by
@@ -51,4 +51,5 @@ class CRM_Participantletter_Settings {
       return FALSE;
     }
   }
+
 }
