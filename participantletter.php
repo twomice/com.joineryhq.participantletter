@@ -9,7 +9,7 @@ function participantletter_civicrm_tabset($tabsetName, &$tabs, $context) {
     if (!empty($eventId)) {
       $eventSettings = CRM_Participantletter_Settings::getEventSettings($eventId);
       $tabs['participantletter'] = array(
-        'title' => ts('Participant Letter'),
+        'title' => E::ts('Participant Letter'),
         // 'link' is automatically provided if we're under the 'civicrm/event/manage' path.
         'link' => NULL,
         // allows form to re-load itself on save.
