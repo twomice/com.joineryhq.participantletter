@@ -70,8 +70,8 @@ class CRM_Participantletter_Form_Event_Config extends CRM_Event_Form_ManageEvent
     $eventSettings = CRM_Participantletter_Settings::getEventSettings($this->getEntityId());
     $defaults = array(
       'event_id' => $this->getEntityId(),
-      'template_id' => CRM_Utils_Array::value('template_id', $eventSettings),
-      'is_participantletter' => CRM_Utils_Array::value('is_participantletter', $eventSettings),
+      'template_id' => $eventSettings['template_id'] ?? NULL,
+      'is_participantletter' => $eventSettings['is_participantletter'] ?? NULL,
     );
     $this->setDefaults($defaults);
 
@@ -92,8 +92,8 @@ class CRM_Participantletter_Form_Event_Config extends CRM_Event_Form_ManageEvent
 
   public function postProcess() {
     $eventSettings = array(
-      'template_id' => CRM_Utils_Array::value('template_id', $this->_submitValues),
-      'is_participantletter' => CRM_Utils_Array::value('is_participantletter', $this->_submitValues),
+      'template_id' => $this->_submitValues['template_id'] ?? NULL,
+      'is_participantletter' => $this->_submitValues['is_participantletter'] ?? NULL,
     );
     if (CRM_Participantletter_Settings::saveAllEventSettings($this->getEntityId(), $eventSettings)) {
       CRM_Core_Session::setStatus(" ", E::ts('Settings saved.'), "success");

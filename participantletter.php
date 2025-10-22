@@ -5,7 +5,7 @@ use CRM_Participantletter_ExtensionUtil as E;
 
 function participantletter_civicrm_tabset($tabsetName, &$tabs, $context) {
   if ($tabsetName == 'civicrm/event/manage') {
-    $eventId = CRM_Utils_Array::value('event_id', $context);
+    $eventId = $context['event_id'] ?? NULL;
     if (!empty($eventId)) {
       $eventSettings = CRM_Participantletter_Settings::getEventSettings($eventId);
       $tabs['participantletter'] = array(
@@ -33,9 +33,9 @@ function participantletter_civicrm_tabset($tabsetName, &$tabs, $context) {
 
   // on manage events listing screen, this section sets particpantletter tab in configuration popup as enabled/disabled.
   if ($tabsetName == 'civicrm/event/manage/rows' && CRM_Utils_Array::value('event_id', $context)) {
-    if ($eventId = CRM_Utils_Array::value('event_id', $context)) {
+    if ($eventId = $context['event_id'] ?? NULL) {
       $eventSettings = CRM_Participantletter_Settings::getEventSettings($eventId);
-      $tabs[$eventId]['is_participantletter'] = CRM_Utils_Array::value('is_participantletter', $eventSettings);
+      $tabs[$eventId]['is_participantletter'] = $eventSettings['is_participantletter'] ?? NULL;
     }
   }
 }
@@ -45,7 +45,7 @@ function participantletter_civicrm_post($op, $objectName, $objectId, &$objectRef
     $eventSettings = CRM_Participantletter_Settings::getEventSettings($objectRef->event_id);
     if (
       CRM_Utils_Array::value('is_participantletter', $eventSettings)
-      && ($template_id = CRM_Utils_Array::value('template_id', $eventSettings))
+      && ($template_id = $eventSettings['template_id'] ?? NULL)
       && CRM_Participantletter_Utils::canSendEmail()
       && !($objectRef->is_test)
     ) {
