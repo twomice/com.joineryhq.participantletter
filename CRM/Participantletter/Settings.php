@@ -47,7 +47,7 @@ class CRM_Participantletter_Settings {
       civicrm_api3('optionValue', 'create', $createParams);
       return TRUE;
     }
-    catch (CRM_Core_Exception $e) {
+    catch (CiviCRM_API3_Exception $e) {
       return FALSE;
     }
   }

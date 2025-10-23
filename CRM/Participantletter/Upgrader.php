@@ -55,7 +55,7 @@ class CRM_Participantletter_Upgrader extends CRM_Extension_Upgrader_Base {
         'id' => $optionGroupId,
       ));
     }
-    catch (CRM_Core_Exception $e) {
+    catch (CiviCRM_API3_Exception $e) {
     }
   }
 
