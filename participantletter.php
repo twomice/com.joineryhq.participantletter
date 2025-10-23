@@ -57,7 +57,7 @@ function participantletter_civicrm_post($op, $objectName, $objectId, &$objectRef
         civicrm_api3('email', 'send', $params);
         CRM_Core_Error::debug_log_message("Participantletter: Successfully sent email to participant_id: {$objectRef->id}, contact_id: {$objectRef->contact_id}, template_id: {$template_id}");
       }
-      catch (CiviCRM_API3_Exception $e) {
+      catch (CRM_Core_Exception $e) {
         CRM_Core_Error::debug_log_message("Participantletter: Could not send email to participant_id: {$objectRef->id}, contact_id: {$objectRef->contact_id}, template_id: {$template_id}; Email.send API error: " . $e->getMessage());
       }
     }
