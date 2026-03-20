@@ -116,13 +116,6 @@ function _participantletter_civix_class_loader($class) {
   }
 }
 
-function _participantletter_civix_mixin_polyfill() {
-  if (!class_exists('CRM_Extension_MixInfo')) {
-    $polyfill = __DIR__ . '/mixin/polyfill.php';
-    (require $polyfill)(E::LONG_NAME, E::SHORT_NAME, E::path());
-  }
-}
-
 /**
  * (Delegated) Implements hook_civicrm_config().
  *
@@ -138,7 +131,7 @@ function _participantletter_civix_civicrm_config($config = NULL) {
   $extRoot = __DIR__ . DIRECTORY_SEPARATOR;
   $include_path = $extRoot . PATH_SEPARATOR . get_include_path();
   set_include_path($include_path);
-  _participantletter_civix_mixin_polyfill();
+  // Based on <compatibility>, this does not currently require mixin/polyfill.php.
 }
 
 /**
@@ -148,7 +141,7 @@ function _participantletter_civix_civicrm_config($config = NULL) {
  */
 function _participantletter_civix_civicrm_install() {
   _participantletter_civix_civicrm_config();
-  _participantletter_civix_mixin_polyfill();
+  // Based on <compatibility>, this does not currently require mixin/polyfill.php.
 }
 
 /**
@@ -158,7 +151,7 @@ function _participantletter_civix_civicrm_install() {
  */
 function _participantletter_civix_civicrm_enable(): void {
   _participantletter_civix_civicrm_config();
-  _participantletter_civix_mixin_polyfill();
+  // Based on <compatibility>, this does not currently require mixin/polyfill.php.
 }
 
 /**
