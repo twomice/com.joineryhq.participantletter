@@ -8,7 +8,7 @@ function participantletter_civicrm_tabset($tabsetName, &$tabs, $context) {
     $eventId = $context['event_id'] ?? NULL;
     if (!empty($eventId)) {
       $eventSettings = CRM_Participantletter_Settings::getEventSettings($eventId);
-      $tabs['participantletter'] = array(
+      $tabs['participantletter'] = [
         'title' => E::ts('Participant Letter'),
         // 'link' is automatically provided if we're under the 'civicrm/event/manage' path.
         'link' => NULL,
@@ -20,14 +20,14 @@ function participantletter_civicrm_tabset($tabsetName, &$tabs, $context) {
         // focus when called directly, e.g., from under the
         // "Configure" link on the Manage Events listing page.
         'current' => TRUE,
-      );
+      ];
     }
     else {
-      $tabs['participantletter'] = array(
+      $tabs['participantletter'] = [
         'title' => E::ts('Participant Letter'),
         'url' => 'civicrm/event/manage/participantletter',
         'field' => 'is_participantletter',
-      );
+      ];
     }
   }
 
@@ -49,10 +49,10 @@ function participantletter_civicrm_post($op, $objectName, $objectId, &$objectRef
       && CRM_Participantletter_Utils::canSendEmail()
       && !($objectRef->is_test)
     ) {
-      $params = array(
+      $params = [
         'template_id' => $template_id,
         'contact_id' => $objectRef->contact_id,
-      );
+      ];
       try {
         civicrm_api3('email', 'send', $params);
         CRM_Core_Error::debug_log_message("Participantletter: Successfully sent email to participant_id: {$objectRef->id}, contact_id: {$objectRef->contact_id}, template_id: {$template_id}");

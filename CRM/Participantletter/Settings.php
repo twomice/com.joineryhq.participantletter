@@ -8,25 +8,25 @@ class CRM_Participantletter_Settings {
 
   public static function getEventSettings($eventId) {
     $settingName = "event_settings_{$eventId}";
-    $result = civicrm_api3('OptionValue', 'get', array(
+    $result = civicrm_api3('OptionValue', 'get', [
       'sequential' => 1,
       'option_group_id' => "participantletter",
       'name' => $settingName,
-    ));
-    $resultValue = CRM_Utils_Array::value(0, $result['values'], array());
+    ]);
+    $resultValue = CRM_Utils_Array::value(0, $result['values'], []);
     $settingJson = CRM_Utils_Array::value('value', $resultValue, '{}');
     return json_decode($settingJson, TRUE);
   }
 
   public static function saveAllEventSettings($eventId, $settings) {
     $settingName = "event_settings_{$eventId}";
-    $result = civicrm_api3('OptionValue', 'get', array(
+    $result = civicrm_api3('OptionValue', 'get', [
       'sequential' => 1,
       'option_group_id' => "participantletter",
       'name' => $settingName,
-    ));
+    ]);
 
-    $createParams = array();
+    $createParams = [];
 
     if ($optionValueId = $result['id'] ?? NULL) {
       $createParams['id'] = $optionValueId;

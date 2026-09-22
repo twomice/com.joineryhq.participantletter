@@ -51,28 +51,28 @@ class CRM_Participantletter_Form_Event_Config extends CRM_Event_Form_ManageEvent
        $this->getTemplateOptions(),
       FALSE
     );
-    $this->addButtons(array(
-      array(
+    $this->addButtons([
+      [
         'type' => 'done',
         'name' => E::ts('Submit'),
         'isDefault' => TRUE,
-      ),
-    ));
+      ],
+    ]);
 
     if (CRM_Core_Permission::check('edit message templates')) {
       $link = '<a href="' . CRM_Utils_System::url('civicrm/admin/messageTemplates', 'reset=1') . '">' . E::ts('manage Message Templates') . '</a>';
-      $manageMessageTemplatesHelpLink = E::ts('(You can also %1).', array('1' => $link));
+      $manageMessageTemplatesHelpLink = E::ts('(You can also %1).', ['1' => $link]);
       $this->assign('manageMessageTemplatesHelpLink', $manageMessageTemplatesHelpLink);
     }
     // export form elements
     $this->assign('elementNames', $this->getRenderableElementNames());
 
     $eventSettings = CRM_Participantletter_Settings::getEventSettings($this->getEntityId());
-    $defaults = array(
+    $defaults = [
       'event_id' => $this->getEntityId(),
       'template_id' => $eventSettings['template_id'] ?? NULL,
       'is_participantletter' => $eventSettings['is_participantletter'] ?? NULL,
-    );
+    ];
     $this->setDefaults($defaults);
 
     // Add JS to handle show/hide stuff.
@@ -91,10 +91,10 @@ class CRM_Participantletter_Form_Event_Config extends CRM_Event_Form_ManageEvent
   }
 
   public function postProcess() {
-    $eventSettings = array(
+    $eventSettings = [
       'template_id' => $this->_submitValues['template_id'] ?? NULL,
       'is_participantletter' => $this->_submitValues['is_participantletter'] ?? NULL,
-    );
+    ];
     if (CRM_Participantletter_Settings::saveAllEventSettings($this->getEntityId(), $eventSettings)) {
       CRM_Core_Session::setStatus(" ", E::ts('Settings saved.'), "success");
     }
@@ -105,7 +105,7 @@ class CRM_Participantletter_Form_Event_Config extends CRM_Event_Form_ManageEvent
   }
 
   private function getTemplateOptions() {
-    return array('0' => '- select -') + CRM_Core_BAO_MessageTemplate::getMessageTemplates(FALSE);
+    return ['0' => '- select -'] + CRM_Core_BAO_MessageTemplate::getMessageTemplates(FALSE);
   }
 
   /**
@@ -118,7 +118,7 @@ class CRM_Participantletter_Form_Event_Config extends CRM_Event_Form_ManageEvent
     // auto-rendered in the loop -- such as "qfKey" and "buttons".  These
     // items don't have labels.  We'll identify renderable by filtering on
     // the 'label'.
-    $elementNames = array();
+    $elementNames = [];
     foreach ($this->_elements as $element) {
       /** @var HTML_QuickForm_Element $element */
       $label = $element->getLabel();
